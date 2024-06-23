@@ -1,0 +1,16 @@
+---
+- name: Gather Interface Information from Cisco IOS device
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: Gather interface facts
+      ios_facts:
+        gather_subset:
+          - interfaces
+      register: interfaces
+
+    - name: Display interface facts
+      debug:
+        var: interfaces.ansible_facts.ansible_net_interfaces
+
