@@ -1,0 +1,13 @@
+---
+- name: Configure Interface on Cisco IOS device
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: Configure GigabitEthernet1 interface
+      ios_config:
+        lines:
+          - description Configured by Ansible
+          - ip address 10.0.0.1 255.255.255.0
+          - no shutdown
+        parents: interface GigabitEthernet1
