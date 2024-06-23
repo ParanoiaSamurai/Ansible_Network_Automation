@@ -1,0 +1,15 @@
+---
+- name: Network Automation with DevNet
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: Gather facts from Cisco IOS device
+      ios_facts:
+        gather_subset: all
+      register: facts
+
+    - name: Display gathered facts
+      debug:
+        var: facts.ansible_facts
+
