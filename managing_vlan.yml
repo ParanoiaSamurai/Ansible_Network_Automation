@@ -1,0 +1,13 @@
+---
+- name: Create VLAN on Cisco IOS device
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: Create VLAN 10
+      ios_config:
+        lines:
+          - name VLAN 10
+          - exit
+          - vlan 10
+          - name Ansible_VLAN
