@@ -1,0 +1,21 @@
+---
+- name: Enable Logging
+  hosts: routers
+  gather_facts: no
+  tasks:
+    - name: Configure logging
+      ios_config:
+        lines:
+          - logging buffered 10000 warnings
+          - logging trap warnings
+          - logging host 192.168.2.100
+
+    - name: Enable NTP for accurate timestamps
+      ios_config:
+        lines:
+          - ntp server 192.168.2.200
+          - ntp update-calendar
+
+    - name: Save Configuration
+      ios_config:
+        commands: write memory
