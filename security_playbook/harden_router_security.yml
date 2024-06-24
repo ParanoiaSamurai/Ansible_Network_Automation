@@ -1,0 +1,30 @@
+---
+- name: Harden Router Security
+  hosts: routers
+  gather_facts: no
+  tasks:
+    - name: Disable HTTP server
+      ios_config:
+        lines:
+          - no ip http server
+
+    - name: Disable CDP on external interfaces
+      ios_config:
+        lines:
+          - no cdp enable
+        parents: interface GigabitEthernet0/0
+
+    - name: Disable unused services
+      ios_config:
+        lines:
+          - no service tcp-small-servers
+          - no service udp-small-servers
+
+    - name: Configure login banners
+      ios_config:
+        lines:
+          - banner motd ^CUnauthorized access is prohibited^C
+
+    - name: Save Configuration
+      ios_config:
+        commands: write memory
