@@ -1,0 +1,17 @@
+---
+- name: Update Access Control List
+  hosts: routers
+  gather_facts: no
+  tasks:
+    - name: Configure ACL
+      ios_config:
+        lines:
+          - permit ip 192.168.1.0 0.0.0.255 any
+          - deny ip any any
+        parents: ip access-list extended ACL_SECURE
+      register: acl_config
+
+    - name: Save Configuration
+      ios_config:
+        commands: write memory
+      when: acl_config.changed
