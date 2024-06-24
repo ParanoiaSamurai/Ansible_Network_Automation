@@ -1,0 +1,34 @@
+---
+- name: Configure SSH
+  hosts: routers
+  gather_facts: no
+  tasks:
+    - name: Ensure domain name is set
+      ios_config:
+        lines:
+          - ip domain-name example.com
+
+    - name: Create RSA keys
+      ios_command:
+        commands:
+          - crypto key generate rsa modulus 2048
+      when: not rsa_key_exists
+      register: rsa_key_creation
+
+    - name: Enable SSH version 2
+      ios_config:
+        lines:
+          - ip ssh version 2
+          - ip ssh time-out 60
+          - ip ssh authentication-retries 3
+
+    - name: Configure VTY lines for SSH
+      ios_config:
+        lines:
+          - transport input ssh
+        parents: line vty 0 4
+
+    - name: Save Configuration
+      ios_config:
+        commands: write memory
+      when: rsa_key_creation.changed
