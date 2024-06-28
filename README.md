@@ -13,6 +13,20 @@ This repository contains Ansible playbooks for automating network tasks on Cisco
 
 Create an inventory file (`hosts`) with details of the devices you want to manage.
 
+``` bash
+[routers]                                              
+                                                        
+host name                         
+                                                        
+[routers:vars]                                         
+                                                        
+ansible_user = "username"
+ansible_password = "password"                          
+ansible_connection = network_cli #type of interface that you want to use                       
+ansible_network_os = ios # type of OS the device is using
+ansible_port = 22
+```
+
 ## Creating playbooks to play along. 
 You can find the playbooks that I have used in playbook directory. Here is an example of playbook:
 
